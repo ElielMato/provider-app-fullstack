@@ -10,3 +10,11 @@ def register():
     print(name, email, password)
 
     return jsonify({}),200
+
+@auth.route('/login', methods=['POST'])
+def login():
+    email = request.json['email']
+    password = request.json['password']
+    print(email, password)
+
+    return jsonify({}),200

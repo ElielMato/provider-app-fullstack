@@ -1,4 +1,4 @@
-from database import db
+from database import db 
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,9 +7,10 @@ class User(db.Model):
     password = db.Column(db.String(250))
 
     def __str__(self):
-        return(
+        return (
             f'id: {self.id}, '
             f'name: {self.name}, '
             f'email: {self.email}, '
             f'password: {self.password}, '
         )
+        

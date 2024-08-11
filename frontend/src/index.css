@@ -5,4 +5,10 @@
 body {
   margin: 0;
   padding: 0;
+  overflow: auto;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }

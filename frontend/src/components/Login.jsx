@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
 import axios from 'axios'
-import Modal from 'react-modal';
+import Swal from 'sweetalert2'
 
 export const Login = () => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate()
 
   const initialValues = {
     email: '',
@@ -17,7 +18,13 @@ export const Login = () => {
     try {
       const response = await axios.post('http://localhost:5000/auth/login', values)
       console.log(response.data)
-      setIsModalOpen(true);
+      Swal.fire({
+        icon: 'success',
+        title: 'Logueado Correctamente',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      navigate('/home')
     } catch (error) {
       console.log(error)
     }
@@ -70,19 +77,6 @@ export const Login = () => {
           </Formik>
         </div>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Registro Exitoso"
-        className="bg-white p-8 rounded shadow-lg max-w-md mx-auto my-20"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
-      >
-        <h2 className="text-xl font-semibold mb-4">Sesion Iniciada</h2>
-        <p className="mb-4">Has iniciado sesion correctamente.</p>
-        <button className="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75" onClick={() => setIsModalOpen(false)}>
-          Cerrar
-        </button>
-      </Modal>
     </div>
 
   )

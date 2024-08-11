@@ -10,7 +10,7 @@ import { About } from "./components/About";
 
 function App() {
   return (
-    <main>
+    <main className="scroll-smooth">
       <Navbar/>
       
       <Routes>

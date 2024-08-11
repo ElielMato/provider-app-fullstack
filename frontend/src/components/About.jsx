@@ -4,7 +4,7 @@ import backgroundImage from '../assets/img/banner_provider.jpg';
 export const About = () => {
     return (
         <section>
-            <div className="relative h-[150px] bg-no-repeat bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+            <div className="relative h-[150px] bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="text-center">
                         <div className="text-white max-w-md px-8">

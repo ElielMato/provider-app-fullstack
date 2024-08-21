@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
+import { UserContext } from '../context/UserContext'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -13,20 +14,36 @@ export const Login = () => {
     password: ''
   }
 
+  const { setUser } = useContext(UserContext);
+
   const handleLogin = async (values) => {
     console.log("Valores desde el front", values)
     try {
       const response = await axios.post('http://localhost:5000/auth/login', values)
       console.log(response.data)
+
+      const { role } = response.data
+      console.log('role', role)
+
       Swal.fire({
         icon: 'success',
         title: 'Logueado Correctamente',
         showConfirmButton: false,
         timer: 1500
       })
-      navigate('/home')
+      setUser({
+        logged: true,
+        role: role,
+      })
+      navigate('/panel')
     } catch (error) {
       console.log(error)
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: 'Correo/Contraseña Incorrecta',
+      //   showConfirmButton: false,
+      //   timer: 1500
+      // })
     }
   }
 

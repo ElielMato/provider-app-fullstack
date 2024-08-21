@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
+import { UserContext } from '../context/UserContext'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -14,18 +15,34 @@ export const Register = () => {
     password: ''
   }
 
+  const { setUser } = useContext(UserContext);
+
   const handleRegister = async (values) => {
     try {
       const response = await axios.post('http://localhost:5000/auth/register', values)
       console.log(response.data)
+
+      const { role } = response.data
+      console.log('role', role)
+
       Swal.fire({
         icon: 'success',
         title: 'Registro Exitoso',
         showConfirmButton: false,
         timer: 1800
       })
-      navigate('/home')
+      setUser({
+        logged: true,
+        role: role,
+      })
+      navigate('/panel')
     } catch (error) {
+      // Swal.fire({
+      //   icon: 'error',
+      //   title: 'Este correo ya esta en uso.',
+      //   showConfirmButton: false,
+      //   timer: 1500
+      // })
       console.log(error)
     }
   }

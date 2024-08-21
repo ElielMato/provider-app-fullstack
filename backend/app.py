@@ -4,7 +4,6 @@ from flask_migrate import Migrate # type: ignore
 from database import db, FULL_URL_DB
 
 from routes import auth
-from routes import pokemon
 
 app = Flask(__name__)
 CORS(app)
@@ -18,7 +17,6 @@ migrate = Migrate()
 migrate.init_app(app,db)
 
 app.register_blueprint(auth)
-app.register_blueprint(pokemon)
 
 if __name__ == "__main__":
     app.run(port=5000)

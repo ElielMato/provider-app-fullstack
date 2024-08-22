@@ -6,7 +6,6 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export const Login = () => {
-
   const navigate = useNavigate()
 
   const initialValues = {
@@ -38,12 +37,13 @@ export const Login = () => {
       navigate('/panel')
     } catch (error) {
       console.log(error)
-      // Swal.fire({
-      //   icon: 'error',
-      //   title: 'Correo/Contraseña Incorrecta',
-      //   showConfirmButton: false,
-      //   timer: 1500
-      // })
+      console.log("Estas en el Error")
+      Swal.fire({
+        icon: 'error',
+        title: 'Correo/Contraseña Incorrecta',
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   }
 
@@ -87,14 +87,16 @@ export const Login = () => {
                   Contraseña
                 </label>
               </div>
-              <button className="bg-indigo-500 text-white w-full py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75" type='submit' onClick={handleLogin}>
+              <button className="bg-indigo-500 text-white w-full py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75" type='submit'>
                 Iniciar sesión
               </button>
+              <p className="text-center text-gray-400 mt-4">
+                Si no estas registrado, ve a <a href="/register" className="text-indigo-500 hover:underline">registrarte</a>.
+              </p>
             </Form>
           </Formik>
         </div>
       </div>
     </div>
-
   )
 }

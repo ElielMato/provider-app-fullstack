@@ -13,7 +13,7 @@ export const Register = () => {
     name: '',
     email: '',
     password: '',
-    // roleType: '',
+    roleType: '',
     businessName: '',
     address: '',
     country: '',
@@ -29,8 +29,7 @@ export const Register = () => {
       const response = await axios.post('http://localhost:5000/auth/register', values)
       console.log(response.data)
 
-      const { role } = response.data
-      console.log('role', role)
+      const { id, role, roleType } = response.data;
 
       Swal.fire({
         icon: 'success',
@@ -40,7 +39,9 @@ export const Register = () => {
       })
       setUser({
         logged: true,
+        id: id,
         role: role,
+        roleType: roleType,
       })
       navigate('/panel')
     } catch (error) {
@@ -112,14 +113,15 @@ export const Register = () => {
                   Contraseña
                 </label>
               </div>
-              {/* <div className="relative mb-4">
+              <div className="relative mb-4">
                 <Field
                   as="select"
                   name="roleType"
                   className="form-select block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
                 >
-                  <option value="Cliente">Cliente</option>
-                  <option value="Proveedor">Proveedor</option>
+                  <option value="client">Cliente</option>
+                  <option value="provider">Proveedor</option>
+                  <option value="both">Ambos</option>
                 </Field>
                 <label
                   htmlFor="roleType"
@@ -127,7 +129,7 @@ export const Register = () => {
                 >
                   Selecciona una opcion
                 </label>
-              </div> */}
+              </div>
               <div className="relative mb-4">
                 <Field
                   type="text"

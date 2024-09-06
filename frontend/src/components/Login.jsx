@@ -21,9 +21,8 @@ export const Login = () => {
       const response = await axios.post('http://localhost:5000/auth/login', values)
       console.log(response.data)
 
-      const { role } = response.data
-      console.log('role', role)
-
+      const { id, role, roleType } = response.data;
+      
       Swal.fire({
         icon: 'success',
         title: 'Logueado Correctamente',
@@ -32,7 +31,9 @@ export const Login = () => {
       })
       setUser({
         logged: true,
+        id: id,
         role: role,
+        roleType: roleType,
       })
       navigate('/panel')
     } catch (error) {

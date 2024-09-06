@@ -8,7 +8,9 @@ import { PrivateRoutes } from './routes/PrivateRoutes'
 function App() {
   const [user, setUser] = useState({
     logged: false,
-    role: ''
+    role: '',
+    roleType: '',
+    id: ''
   });
 
   console.log('User Logged', user.logged);

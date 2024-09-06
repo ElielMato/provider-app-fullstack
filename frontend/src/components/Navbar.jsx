@@ -1,24 +1,11 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
+import { UserMenu } from '../components/UserMenu'
 
 export const Navbar = () => {
 
-    const navigate = useNavigate()
-
-    const { user, setUser } = useContext(UserContext);
-
-    const handleClose = () => {
-        try {
-            setUser({
-                logged: false
-            })
-            navigate('/login')
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const { user } = useContext(UserContext);
 
     return (
         <nav className="bg-gray-200 shadow shadow-gray-300 w-full px-8">
@@ -49,27 +36,11 @@ export const Navbar = () => {
                 {
                     user.logged === true && user.role === 'user' ? (
                         <div className="flex space-x-4">
-                            <Link className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2 no-underline" to="/dashboard">
-                                <span>Dashboard</span>
-                            </Link>
-                            <button className="px-2 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2 no-underline" type='submit' onClick={handleClose}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </button>
+                            <UserMenu />
                         </div>
                     ) : user.logged === true && user.role === 'admin' ? (
                         <div className="flex space-x-4">
-                            <Link className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2 no-underline" to="/dashboard-admin">
-                                <span>Dashboard Admin</span>
-                            </Link>
-                            <button className="px-2 py-2 bg-indigo-500 hover:bg-indigo-600 text-gray-50 rounded-xl flex items-center gap-2 no-underline" type='submit' onClick={handleClose}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </button>
+                            <UserMenu />
                         </div>
                     ) : (
                         <div className="flex space-x-4">

@@ -1,18 +1,22 @@
-from database import db 
+from database import db
+from datetime import datetime
 
-class Product(db.Model):
+class Order(db.Model):
+    __tablename__ = 'orders'
+
     id = db.Column(db.Integer, primary_key=True)
-    id_client  = db.Column(db.Integer)
-    id_provider = db.Column(db.Integer)
-    products = db.Column(db.String(250)) # Ver si son varios productos, lista con cantidad y id del producto
-    price_total = db.Column(db.String(250))
+    id_client = db.Column(db.Integer, db.ForeignKey("user.id"))
+    products = db.Column(db.JSON)
+    total = db.Column(db.Float, nullable=False)
+    order_date = db.Column(db.DateTime, default=datetime.utcnow)
+    is_accepted = db.Column(db.Boolean, default=False) 
 
-    def __str__(self):
-        return (
-            f'id: {self.id}, '
-            f'id_client: {self.id_client}, '
-            f'id_provider: {self.id_provider}, '
-            f'products: {self.products}, '
-            f'price_total: {self.price_total}, '
-        )
-        
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'id_client': self.id_client,
+            'products': self.products,
+            'total': self.total,
+            'order_date': self.order_date.isoformat(),
+            'is_accepted': self.is_accepted
+        }

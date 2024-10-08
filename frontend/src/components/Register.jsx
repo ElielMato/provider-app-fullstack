@@ -14,12 +14,11 @@ export const Register = () => {
     email: '',
     password: '',
     roleType: '',
-    businessName: '',
+    business_name: '',
     address: '',
     country: '',
     province: '',
-    postalCode: '',
-
+    postal_code: '',
   }
 
   const { setUser } = useContext(UserContext);
@@ -30,7 +29,7 @@ export const Register = () => {
       console.log(response.data)
 
       const { id, role, roleType } = response.data;
-
+      console.log("ID", id)
       Swal.fire({
         icon: 'success',
         title: 'Registro Exitoso',
@@ -134,12 +133,12 @@ export const Register = () => {
                 <Field
                   type="text"
                   className="form-input block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="businessName"
+                  id="business_name"
                   placeholder="Nombre del Negocio"
-                  name="businessName"
+                  name="business_name"
                 />
                 <label
-                  htmlFor="businessName"
+                  htmlFor="business_name"
                   className="absolute left-3 top-1 text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
                 >
                   Nombre del Negocio
@@ -194,12 +193,12 @@ export const Register = () => {
                 <Field
                   type="text"
                   className="form-input block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="postalCode"
+                  id="postal_code"
                   placeholder="Código Postal"
-                  name="postalCode"
+                  name="postal_code"
                 />
                 <label
-                  htmlFor="postalCode"
+                  htmlFor="postal_code"
                   className="absolute left-3 top-1 text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
                 >
                   Código Postal

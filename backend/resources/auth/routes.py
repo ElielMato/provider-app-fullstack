@@ -3,7 +3,6 @@ from models.User import User
 from database import db
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
-company = Blueprint('company', __name__, url_prefix='/company')
 
 @auth.route('/register', methods=['POST'])
 def register():
@@ -19,11 +18,11 @@ def register():
         email=email,
         password=data.get('password'),
         roleType=data.get('roleType'),
-        businessName=data.get('businessName'),
+        business_name=data.get('business_name'),
         address=data.get('address'),
         country=data.get('country'),
         province=data.get('province'),
-        postalCode=data.get('postalCode')
+        postal_code=data.get('postal_code')
     )
     db.session.add(new_user)
     db.session.commit()
@@ -44,27 +43,4 @@ def login():
         response = {'Mensaje': 'Error'}
         print("Error en la Contraseña")
         return jsonify(response), 401
-    
-@company.route('/edit', methods=['POST'])
-def edit_company():
-    data = request.get_json()
-    print(data)
-    id = data.get('id')
-    business_name = data.get('businessName')
-    address = data.get('address')
-    country = data.get('country')
-    province = data.get('province')
-    postal_code = data.get('postalCode')
-
-    user = User.query.filter_by(id=id).first()
-    if user:
-        user.business_name = business_name if business_name is not None else user.business_name
-        user.address = address if address is not None else user.address
-        user.country = country if country is not None else user.country
-        user.province = province if province is not None else user.province
-        user.postal_code = postal_code if postal_code is not None else user.postal_code
-        db.session.commit()
-        return jsonify({"Mensaje": "Datos de la empresa actualizados correctamente"}), 201
-    else:
-        return jsonify({"Mensaje": "Usuario no encontrado"}), 404
     

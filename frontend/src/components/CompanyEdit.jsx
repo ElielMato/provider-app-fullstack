@@ -13,7 +13,7 @@ export const CompanyEdit = () => {
         Object.entries(values).filter(([key, value]) => value !== '')
       );
 
-      const response = await axios.post('http://localhost:5000/company/edit', filteredValues);
+      const response = await axios.post('http://localhost:5000/company', filteredValues);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -21,111 +21,84 @@ export const CompanyEdit = () => {
   };
 
   return (
-    <section>
-      <div className="w-full mt-6 flex items-center justify-center">
-        <h1>Configuracion de la Empresa</h1>
-      </div>
-      <div className="w-full mt-6 flex items-center justify-center">
-        <Formik
-          initialValues={{
-            id: user.id,
-            businessName: '',
-            address: '',
-            country: '',
-            province: '',
-            postalCode: ''
-          }}
-          onSubmit={handleSubmit}>
-          <Form>
-            <section className='flex flex-wrap'>
-              <div className="relative m-3 flex-1 min-w-[300px]">
-                <Field
-                  type="text"
-                  className="form-input block w-full px-4 py-2 border border-black rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="businessName"
-                  placeholder="Nombre del Negocio"
-                  name="businessName"
-                />
-                <label
-                  htmlFor="businessName"
-                  className="absolute -top-2 text-xl text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
+    <section className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"'>
+      <h1 className='text-2xl font-bold text-gray-900 mb-4'>Configuracion de la Empresa</h1>
+
+      <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div className="px-4 py-5 sm:p-6">
+          <Formik
+            initialValues={{
+              id: user.id,
+              businessName: '',
+              address: '',
+              country: '',
+              province: '',
+              postalCode: ''
+            }}
+            onSubmit={handleSubmit}>
+            <Form>
+              <section className='flex flex-wrap'>
+                <div className="relative flex-1 min-w-[300px] m-2">
+                  <Field
+                    type="text"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-1 py-1"
+                    id="businessName"
+                    placeholder="Nombre del Negocio"
+                    name="businessName"
+                  />
+                </div>
+              </section>
+              <section className='flex flex-wrap'>
+                <div className="relative flex-1 min-w-[300px] m-2">
+                  <Field
+                    type="text"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-1 py-1"
+                    id="address"
+                    placeholder="Dirección"
+                    name="address"
+                  />
+                </div>
+                <div className="relative flex-1 min-w-[300px] m-2">
+                  <Field
+                    type="text"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-1 py-1"
+                    id="country"
+                    placeholder="País"
+                    name="country"
+                  />
+                </div>
+              </section>
+              <section className='flex flex-wrap'>
+                <div className="relative flex-1 min-w-[300px] m-2">
+                  <Field
+                    type="text"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-1 py-1"
+                    id="province"
+                    placeholder="Provincia"
+                    name="province"
+                  />
+                </div>
+                <div className="relative flex-1 min-w-[300px] m-2">
+                  <Field
+                    type="text"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-1 py-1"
+                    id="postalCode"
+                    placeholder="Código Postal"
+                    name="postalCode"
+                  />
+                </div>
+              </section>
+              <section className='w-full flex items-center justify-center'>
+                <button
+                  className="w-full p-4 bg-indigo-500 text-white py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
+                  type="submit"
                 >
-                  Nombre del Negocio
-                </label>
-              </div>
-            </section>
-            <section className='flex flex-wrap'>
-              <div className="relative m-3 flex-1 min-w-[300px]">
-                <Field
-                  type="text"
-                  className="form-input block w-full px-4 py-2 border border-black rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="address"
-                  placeholder="Dirección"
-                  name="address"
-                />
-                <label
-                  htmlFor="address"
-                  className="absolute -top-2 text-xl text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
-                >
-                  Dirección
-                </label>
-              </div>
-              <div className="relative m-3 flex-1 min-w-[300px]">
-                <Field
-                  type="text"
-                  className="form-input block w-full px-4 py-2 border border-black rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="country"
-                  placeholder="País"
-                  name="country"
-                />
-                <label
-                  htmlFor="country"
-                  className="absolute -top-2 text-xl text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
-                >
-                  País
-                </label>
-              </div>
-            </section>
-            <section className='flex flex-wrap'>
-              <div className="relative m-3 flex-1 min-w-[300px]">
-                <Field
-                  type="text"
-                  className="form-input block w-full px-4 py-2 border border-black rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="province"
-                  placeholder="Provincia"
-                  name="province"
-                />
-                <label
-                  htmlFor="province"
-                  className="absolute -top-2 text-xl text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
-                >
-                  Provincia
-                </label>
-              </div>
-              <div className="relative m-3 flex-1 min-w-[300px]">
-                <Field
-                  type="text"
-                  className="form-input block w-full px-4 py-2 border border-black rounded-md focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-                  id="postalCode"
-                  placeholder="Código Postal"
-                  name="postalCode"
-                />
-                <label
-                  htmlFor="postalCode"
-                  className="absolute -top-2 text-xl text-gray-600 pointer-events-none transform -translate-y-1/2 scale-75 origin-top-left transition-all duration-200"
-                >
-                  Código Postal
-                </label>
-              </div>
-            </section>
-            <button
-              className="bg-indigo-500 text-white w-full py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
-              type="submit"
-            >
-              Guardar Cambios
-            </button>
-          </Form>
-        </Formik>
+                  Guardar Cambios
+                </button>
+              </section>
+            </Form>
+          </Formik>
+        </div>
       </div>
     </section>
 

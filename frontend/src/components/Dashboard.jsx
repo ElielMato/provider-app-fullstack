@@ -1,21 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { FaBuilding, FaShoppingBag, FaShoppingCart } from 'react-icons/fa';
 import { FaShop, FaBasketShopping } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 
-import { CompanyEdit } from './CompanyEdit'
+import { CompanyEdit } from './CompanyEdit';
+import { ProductManager } from './ProductManager';
+import { OrderManager } from './OrderCreator';
 
 export const Dashboard = () => {
-  const { user } = React.useContext(UserContext);
-  const [showCompanyForm, setShowCompanyForm] = useState(true);
+  const { user } = useContext(UserContext);
+  const [currentView, setCurrentView] = useState('company');
 
   useEffect(() => {
     const handleHashChange = () => {
-      if (window.location.hash === '#company' || window.location.hash === '') {
-        setShowCompanyForm(true);
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        setCurrentView(hash);
       } else {
-        setShowCompanyForm(false);
+        setCurrentView('company');
       }
     };
 
@@ -25,88 +28,55 @@ export const Dashboard = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  const links = {
+    client: [
+      { href: '#company', icon: <FaBuilding className='inline-block mr-2'/>, label: 'Compañía' },
+      { href: '#orderUser', icon: <FaShoppingBag className='inline-block mr-2'/>, label: 'Pedidos' },
+      { href: '#stock', icon: <FaShop className='inline-block mr-2'/>, label: 'Stock de Tienda' }
+    ],
+    provider: [
+      { href: '#company', icon: <FaBuilding className='inline-block mr-2'/>, label: 'Compañía' },
+      { href: '#product', icon: <FaShoppingCart className='inline-block mr-2'/>, label: 'Productos' },
+      { href: '#orderProider', icon: <FaBasketShopping className='inline-block mr-2'/>, label: 'Ordenes' },
+      { href: '#stock', icon: <FaShop className='inline-block mr-2'/>, label: 'Stock de Proveedor' }
+    ],
+    both: [
+      { href: '#company', icon: <FaBuilding className='inline-block mr-2'/>, label: 'Compañía' },
+      { href: '#product', icon: <FaShoppingCart className='inline-block mr-2'/>, label: 'Productos' },
+      { href: '#orderUser', icon: <FaShoppingBag className='inline-block mr-2'/>, label: 'Pedidos' },
+      { href: '#orderProider', icon: <FaBasketShopping className='inline-block mr-2'/>, label: 'Ordenes' },
+      { href: '#stock', icon: <FaShop className='inline-block mr-2'/>, label: 'Stock de Proveedor' }
+    ],
+    admin: [
+      { href: '#clients', icon: <IoPerson className='inline-block mr-2'/>, label: 'Gestionar Clientes' },
+      { href: '#product', icon: <FaShop className='inline-block mr-2'/>, label: 'Gestionar Proveedores' },
+      { href: '#orderUser', icon: <FaBasketShopping className='inline-block mr-2'/>, label: 'Gestionar Productos' }
+    ]
+  };
+
+  const roleLinks = () => {
+    if (user.role === 'admin') return links.admin;
+    if (user.roleType === 'client') return links.client;
+    if (user.roleType === 'provider') return links.provider;
+    if (user.roleType === 'both') return links.both;
+    return links.client; // Default case
+  };
+
   return (
     <section className="flex">
       <aside className="w-64 h-screen bg-indigo-500 p-4 text-white rounded m-4">
         <h2 className="text-xl font-bold mb-6 text-center">Panel de Control</h2>
-        {
-          user.roleType === 'client' && user.role === 'user' ? (
-            <div>
-              <a href="#company" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBuilding className="inline-block mr-2" /> Compañía
-              </a>
-              <a href="#orderUser" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShoppingBag  className="inline-block mr-2" /> Pedidos
-              </a>
-              <a href="#stock" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShop  className="inline-block mr-2" /> Stock de Tienda
-              </a>
-            </div>
-          ) : user.roleType === 'provider' && user.role === 'user' ?  (
-            <div>
-              <a href="#company" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBuilding className="inline-block mr-2" /> Compañía
-              </a>
-              <a href="#product" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShoppingCart  className="inline-block mr-2" /> Productos
-              </a>
-              <a href="#orderProider" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBasketShopping  className="inline-block mr-2" /> Ordenes
-              </a>
-              <a href="#stock" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShop  className="inline-block mr-2" /> Stock de Proveedor
-              </a>
-            </div>
-          ) : user.roleType === 'both' && user.role === 'user' ?  (
-            <div>
-              <a href="#company" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBuilding className="inline-block mr-2" /> Compañía
-              </a>
-              <a href="#product" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShoppingCart  className="inline-block mr-2" /> Productos
-              </a>
-              <a href="#orderUser" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShoppingBag  className="inline-block mr-2" /> Pedidos
-              </a>
-              <a href="#orderProider" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBasketShopping  className="inline-block mr-2" /> Ordenes
-              </a>
-              <a href="#stock" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShop  className="inline-block mr-2" /> Stock de Proveedor
-              </a>
-            </div>
-          ) : user.role === 'admin' ? (
-            <div>
-              <a href="#clients" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <IoPerson className="inline-block mr-2" /> Gestionar Clientes
-              </a>
-              <a href="#product" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShop   className="inline-block mr-2" /> Gestionar Proveedores
-              </a>
-              <a href="#orderUser" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBasketShopping  className="inline-block mr-2" /> Gestionar Productos
-              </a>
-            </div>
-          ) : (
-            <div>
-              <a href="#company" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaBuilding className="inline-block mr-2" /> Compañía
-              </a>
-              <a href="#orderUser" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShoppingBag  className="inline-block mr-2" /> Pedidos
-              </a>
-              <a href="#stock" className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
-                <FaShop  className="inline-block mr-2" /> Stock de Tienda
-              </a>
-            </div>
-          )
-        }
+        {roleLinks().map(link => (
+          <a key={link.href} href={link.href} className="block p-2 text-gray-50 hover:bg-indigo-600 rounded no-underline text-center">
+            {link.icon} {link.label}
+          </a>
+        ))}
       </aside>
       <div className="flex-1 p-6 max-w-4xl mx-auto">
-        {showCompanyForm && (
-          <CompanyEdit />
-        )}
+        {currentView === 'company' && <CompanyEdit />}
+        {currentView === 'product' && <ProductManager />}
+        {currentView === 'orderUser' && <OrderManager />}
       </div>
     </section>
   );
-}
+};

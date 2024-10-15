@@ -1,7 +1,11 @@
 import React, { useContext } from 'react'
-import { UserContext } from '../context/UserContext'
+import { UserContext } from '../../context/UserContext'
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios'
+
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 
 export const CompanyEdit = () => {
 
@@ -15,8 +19,10 @@ export const CompanyEdit = () => {
 
       const response = await axios.post('http://localhost:5000/company', filteredValues);
       console.log(response.data);
+      notyf.success("¡Se guardo correctamente!")
     } catch (error) {
       console.error(error);
+      notyf.error("¡Hubo un error en el guardado!")
     }
   };
 

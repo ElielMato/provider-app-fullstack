@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
-import { UserContext } from '../context/UserContext'
-import { UserMenu } from '../components/UserMenu'
+import { UserContext } from '../../context/UserContext'
+import { UserMenu } from '../Utils/UserMenu'
 
 export const Navbar = () => {
 
@@ -11,7 +11,7 @@ export const Navbar = () => {
         <nav className="bg-gray-200 shadow shadow-gray-300 w-full px-8">
             <div className="container mx-auto flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                    <img src={require('../assets/img/logo.png')} alt="Logo" width={50} className="rounded-full" />
+                    <img src={require('../../assets/img/logo.png')} alt="Logo" width={50} className="rounded-full" />
                     <span className="text-indigo-500 font-semibold">Provider App</span>
                 </div>
                 <ul className="flex space-x-8 font-semibold text-gray-500 mt-3">

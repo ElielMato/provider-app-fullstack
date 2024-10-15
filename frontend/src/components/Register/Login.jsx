@@ -1,11 +1,15 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
-import { UserContext } from '../context/UserContext'
+import { UserContext } from '../../context/UserContext'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 
 export const Login = () => {
+
   const navigate = useNavigate()
 
   const initialValues = {
@@ -23,12 +27,7 @@ export const Login = () => {
 
       const { id, role, roleType } = response.data;
       
-      Swal.fire({
-        icon: 'success',
-        title: 'Logueado Correctamente',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      notyf.success('¡Inicio de Sesion Correctamente!');
       setUser({
         logged: true,
         id: id,
@@ -38,13 +37,7 @@ export const Login = () => {
       navigate('/panel')
     } catch (error) {
       console.log(error)
-      console.log("Estas en el Error")
-      Swal.fire({
-        icon: 'error',
-        title: 'Correo/Contraseña Incorrecta',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      notyf.error('¡Correo o Contraseña Incorrecta!');
     }
   }
 

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
-import { Home } from "../components/Home";
-import { Login } from "../components/Login";
-import { Register } from "../components/Register";
-import { Provider } from "../components/Provider";
-import { Customer } from "../components/Customer";
-import { Contact } from "../components/Contact";
-import { About } from "../components/About";
+import { Home } from "../components/Home/Home";
+import { Login } from "../components/Register/Login";
+import { Register } from "../components/Register/Register";
+import { Provider } from "../components/Home/Provider";
+import { Customer } from "../components/Home/Customer";
+import { Contact } from "../components/Home/Contact";
+import { About } from "../components/Home/About";
 
 export const PublicRoutes = () => {
     return (

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 
-import { Dashboard } from "../components/Dashboard";
-import { Panels } from "../components/Panels";
+import { Dashboard } from "../components/Dashboard/Dashboard";
+import { Panels } from "../components/Dashboard/Panels";
 
 export const PrivateRoutes = () => {
     return (

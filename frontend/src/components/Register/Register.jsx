@@ -1,9 +1,12 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Field, Form, Formik } from 'formik'
-import { UserContext } from '../context/UserContext'
+import { UserContext } from '../../context/UserContext'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 
 export const Register = () => {
 
@@ -30,12 +33,7 @@ export const Register = () => {
 
       const { id, role, roleType } = response.data;
       console.log("ID", id)
-      Swal.fire({
-        icon: 'success',
-        title: 'Registro Exitoso',
-        showConfirmButton: false,
-        timer: 1800
-      })
+      notyf.success('¡Registro Correctamente!');
       setUser({
         logged: true,
         id: id,
@@ -44,12 +42,7 @@ export const Register = () => {
       })
       navigate('/panel')
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Este correo ya esta en uso.',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      notyf.error('¡Este correo ya esta en uso!');
       console.log(error)
     }
   }

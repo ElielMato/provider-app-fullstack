@@ -1,5 +1,5 @@
 import React from 'react';
-import backgroundImage from '../assets/img/banner_provider.jpg';
+import backgroundImage from '../../assets/img/banner_provider.jpg';
 
 export const Contact = () => {
     

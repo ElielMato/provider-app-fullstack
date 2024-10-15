@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../context/UserContext';
-import { Formik, Form, Field } from 'formik';
-import { Modal } from './Modal';
+import { UserContext } from '../../context/UserContext';
+import { Formik, Form } from 'formik';
 import axios from 'axios';
 
-export const OrderManager = () => {
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
+
+export const OrderCreator = () => {
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingOrder, setEditingOrder] = useState(null);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -74,26 +75,11 @@ export const OrderManager = () => {
     try {
       const response = await axios.post('http://localhost:5000/orders', orderData);
       fetchOrders();
+      notyf.success("¡Se creo una nueva orden!")
       console.log('Orden enviada correctamente:', response.data);
     } catch (error) {
       console.error('Error al enviar la orden:', error);
-    }
-  };
-
-  const handleEdit = (order) => {
-    console.log(order)
-    setEditingOrder(order);
-    setIsEditModalOpen(true);
-  };
-
-  const handleEditSubmit = async (values) => {
-    try { 
-      console.log(values)
-      await axios.put(`http://localhost:5000/orders/${values.id}`, values);
-      setIsEditModalOpen(false);
-      fetchOrders();
-    } catch (error) {
-      console.error('Error al editar orden:', error);
+      notyf.error("¡Error al crear una orden!")
     }
   };
 
@@ -102,8 +88,10 @@ export const OrderManager = () => {
       await axios.delete(`http://localhost:5000/orders/${orderId}`);
       console.log('Orden eliminada correctamente');
       fetchOrders();
+      notyf.success("¡Se cancelo la orden!")
     } catch (error) {
-      console.error('Error al eliminar la orden:', error);
+      console.error('Error al cancelar la orden:', error);
+      notyf.error("¡Error al cancelar la orden!")
     }
   };
 
@@ -177,7 +165,7 @@ export const OrderManager = () => {
               {orders.map(order => (
                 <li key={order.id} className="p-4 border border-gray-200 rounded-md">
                   <h2 className="text-xl font-semibold">Orden N°: {order.id}</h2>
-                  <p>Estado: {order.is_accepted ? 'Aceptada' : 'No aceptada'}</p>
+                  <p>Estado: {order.is_accepted ? 'Aceptada' : 'No Aceptada'}</p>
                   <p>Total: ${order.total}</p>
                   <p>Fecha: {new Date(order.order_date).toLocaleString()}</p>
                   <h4 className="mt-2 font-medium text-xl">Productos:</h4>
@@ -190,16 +178,10 @@ export const OrderManager = () => {
                   </ul>
                   <div className="flex space-x-2 mt-4">
                     <button
-                      onClick={() => handleEdit(order)}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600"
-                    >
-                      Editar
-                    </button>
-                    <button
                       onClick={() => handleDeleteOrder(order.id)}
                       className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
                     >
-                      Eliminar
+                      Cancelar
                     </button>
                   </div>
                 </li>
@@ -208,40 +190,6 @@ export const OrderManager = () => {
           )}
         </div>
       </div>
-      {isEditModalOpen && (
-        <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Editar Ordenes</h2>
-          <Formik
-            initialValues={editingOrder}
-            onSubmit={handleEditSubmit}
-          >
-            <Form className="space-y-4">
-              {orders
-                .filter(order => order.id === editingOrder.id)
-                .map(order => (
-                  <div key={order.id}>
-                    {order.products.map(product => (
-                      <div key={product.id} className="flex items-center justify-between mt-2 p-2 border-b border-gray-200">
-                        <div className='text-left'>
-                          <p className="text-sm font-medium text-gray-900">{product.name}</p>
-                          <p className="text-sm text-gray-500">{product.brand}</p>
-                          <p className="text-sm text-gray-500">Precio: ${product.price}</p>
-                        </div>
-                        <div className="flex items-center">
-                              <Field name="products[{}]" type="number" step="0.01" placeholder="Cantidad" className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              <button type="submit" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-                Guardar Cambios
-              </button>
-            </Form>
-          </Formik>
-        </Modal>
-      )}
-
     </section>
   );
 };

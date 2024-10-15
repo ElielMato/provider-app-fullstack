@@ -1,5 +1,5 @@
-from flask_restful import Resource
-from flask import request
+from flask_restful import Resource # type: ignore
+from flask import request, jsonify # type: ignore
 from models.Order import Order
 from database import db
 
@@ -34,7 +34,29 @@ class OrderResource(Resource):
 
     def put(self, order_id):
         order = Order.query.get_or_404(order_id)
-        data = request.get_json()
+        data = request.get_json() 
+
+        try:
+            if 'id_client' in data:
+                order.id_client = int(data.get('id_client'))
+            if 'products' in data:
+                order.products = data.get('products')
+            if 'total' in data:
+                order.total = float(data.get('total'))
+            if 'order_date' in data:
+                order.order_date = str(data.get('order_date'))
+            if 'is_accepted' in data:
+                order.is_accepted = bool(data.get('is_accepted'))
+            
+            db.session.commit()
+            
+            return {
+                'message': 'Orden actualizada exitosamente',
+                'order': order.to_dict()
+            }, 200
+        except Exception as e:
+            db.session.rollback()
+            return {'error': str(e)}, 400
         
 
     def delete(self, order_id):

@@ -1,8 +1,7 @@
-from flask_restful import Resource
-from flask import request
+from flask_restful import Resource # type: ignore
+from flask import request # type: ignore
 from models.Product import Product
 from database import db
-from utils.product_image import get_product_image
 
 class ProductResource(Resource):
     def get(self):
@@ -45,9 +44,6 @@ class ProductResource(Resource):
             product.price = float(data.get('price', product.price))
             product.brand = data.get('brand', product.brand)
             product.type = data.get('type', product.type)
-
-            if data.get('name') != product.name or data.get('brand') != product.brand:
-                product.image = get_product_image(data.get('name'), data.get('brand'))
 
             db.session.commit()
             return {'message': 'Producto actualizado exitosamente', 'product': product.to_dict()}, 200

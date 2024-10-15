@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../context/UserContext'
+import { UserContext } from '../../context/UserContext'
 import axios from 'axios';
 import { Formik, Form, Field } from 'formik';
-import { Modal } from './Modal';
+import { Modal } from '../Utils/Modal';
+
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
+const notyf = new Notyf();
 
 export const ProductManager = () => {
   const [products, setProducts] = useState([]);
@@ -40,8 +44,10 @@ export const ProductManager = () => {
       await axios.post('http://localhost:5000/products', values);
       resetForm();
       fetchProducts();
+      notyf.success("¡Se agrego un nuevo producto!")
     } catch (error) {
       console.error('Error al crear producto:', error.response?.data || error.message);
+      notyf.error("¡Error al crear un producto!")
     }
   };
 
@@ -55,8 +61,10 @@ export const ProductManager = () => {
       await axios.put(`http://localhost:5000/products/${values.id}`, values);
       setIsEditModalOpen(false);
       fetchProducts();
+      notyf.success("¡Se edito un producto!")
     } catch (error) {
-      console.error('Error al editar producto:', error);
+      console.error('Error al editar un producto:', error);
+      notyf.error("¡Error al editar un producto!")
     }
   };
 
@@ -64,8 +72,10 @@ export const ProductManager = () => {
     try {
       await axios.delete(`http://localhost:5000/products/${productId}`);
       fetchProducts();
+      notyf.success("¡Se elimino un producto!")
     } catch (error) {
-      console.error('Error al eliminar producto:', error);
+      console.error('Error al eliminar un producto:', error);
+      notyf.error("¡Error al eliminar un producto!")
     }
   };
 

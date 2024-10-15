@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { FaUserCircle, FaTabletAlt  } from 'react-icons/fa';
 import { CiLogout } from "react-icons/ci";
 

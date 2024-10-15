@@ -1,5 +1,5 @@
 import React from 'react';
-import backgroundImage from '../assets/img/home_provider.jpg';
+import backgroundImage from '../../assets/img/home_provider.jpg';
 
 export const Home = () => {
     return (
@@ -17,7 +17,7 @@ export const Home = () => {
                             </button>
                         </div>
                         <div className='mx-40'>
-                            <img src={require('../assets/img/logo.png')} alt="Logo" width={250} className="rounded-full" />
+                            <img src={require('../../assets/img/logo.png')} alt="Logo" width={250} className="rounded-full" />
                         </div>
                     </div>
                 </div>
